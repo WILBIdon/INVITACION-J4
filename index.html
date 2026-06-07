@@ -267,54 +267,6 @@
             margin: 0;
         }
 
-        /* Floating orientation toggle button */
-        .btn-rotate-floating {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(5, 5, 5, 0.75);
-            border: 1px solid rgba(212, 175, 55, 0.5);
-            color: #f9e4b7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .btn-rotate-floating:hover {
-            background: rgba(212, 175, 55, 0.2);
-            border-color: #d4af37;
-            transform: scale(1.1);
-        }
-
-        .btn-rotate-floating i {
-            font-size: 1.3rem;
-            transition: transform 0.5s ease;
-        }
-
-        /* Simulated Rotation style (portrait screens only) */
-        @media (orientation: portrait) {
-            body.rotated-layout #app-container {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                width: 100vh;
-                height: 100vw;
-                transform: translate(-50%, -50%) rotate(90deg);
-                transform-origin: center center;
-                border-radius: 0;
-                padding: 15px 10px;
-            }
-            body.rotated-layout .btn-rotate-floating {
-                transform: rotate(90deg);
-            }
-        }
 
         /* Responsiveness adjustments */
         @media (max-width: 600px) {
@@ -336,10 +288,6 @@
 </head>
 <body>
 
-    <!-- Rotation action button -->
-    <button class="btn-rotate-floating" onclick="toggleRotation()" title="Girar pantalla">
-        <i class="fa-solid fa-rotate"></i>
-    </button>
 
     <!-- Main Container -->
     <div id="app-container">
@@ -419,19 +367,6 @@
             video.currentTime = 0;
             video.play();
         }
-
-        // Toggle Rotation function
-        function toggleRotation() {
-            document.body.classList.toggle('rotated-layout');
-        }
-
-        // Automatically disable simulated rotation if user rotates physically to landscape
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > window.innerHeight) {
-                // Device is physically in landscape mode
-                document.body.classList.remove('rotated-layout');
-            }
-        });
     </script>
 </body>
 </html>
