@@ -34,10 +34,11 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #0a0a0a 0%, #161616 50%, #0a0a0a 100%);
-            padding: 10px; /* Reduced padding to maximize video space */
+            padding: 5px;
+            gap: 5px;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), width 0.5s, height 0.5s;
         }
 
@@ -50,10 +51,9 @@
             font-weight: 700;
         }
 
-        /* Header style */
         header {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 0;
             z-index: 10;
         }
         header h1 {
@@ -68,7 +68,7 @@
             height: 2px;
             width: 120px;
             background: linear-gradient(90deg, transparent, #d4af37, transparent);
-            margin: 10px auto 0;
+            margin: 5px auto 0;
         }
 
         /* Main area containing the video */
@@ -78,11 +78,11 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 1000px; /* Maximized width */
-            margin: 10px 0; /* Reduced margin */
+            max-width: 1000px;
+            margin: 0;
             position: relative;
             z-index: 5;
-            min-height: 0; /* Prevents overflow in nested flex containers */
+            min-height: 0;
         }
 
         /* Video wrapper for card & shadow effects */
