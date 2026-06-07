@@ -37,7 +37,7 @@
             justify-content: space-between;
             align-items: center;
             background: linear-gradient(135deg, #0a0a0a 0%, #161616 50%, #0a0a0a 100%);
-            padding: 30px 20px;
+            padding: 10px; /* Reduced padding to maximize video space */
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), width 0.5s, height 0.5s;
         }
 
@@ -78,8 +78,8 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 850px;
-            margin: 20px 0;
+            max-width: 1000px; /* Maximized width */
+            margin: 10px 0; /* Reduced margin */
             position: relative;
             z-index: 5;
             min-height: 0; /* Prevents overflow in nested flex containers */
@@ -141,6 +141,30 @@
             margin: 0 0 25px 0;
             letter-spacing: 2px;
             text-shadow: 0 2px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Glove cursor for play overlay */
+        .glove-cursor {
+            font-size: 4rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(212, 175, 55, 0.7);
+            animation: click-bounce 1.5s infinite;
+        }
+
+        @keyframes click-bounce {
+            0%, 100% { transform: scale(1) translateY(0) rotate(-10deg); }
+            50% { transform: scale(0.85) translateY(15px) rotate(0deg); }
+        }
+
+        #play-overlay {
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.6); 
+        }
+
+        #play-overlay h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
         }
 
         /* Buttons styles */
@@ -315,10 +339,18 @@
         <!-- Video Player Section -->
         <main>
             <div class="video-card">
-                <video id="my-video" controls playsinline>
-                    <source src="202606071414.mp4" type="video/mp4">
+                <video id="my-video" controls playsinline preload="auto">
+                    <source src="START.mp4" type="video/mp4">
                     Tu navegador no soporta video HTML5.
                 </video>
+
+                <!-- Initial Play Overlay -->
+                <div class="video-overlay active" id="play-overlay">
+                    <div class="glove-cursor">
+                        <i class="fa-solid fa-hand-pointer"></i>
+                    </div>
+                    <h3>¡Clic aquí para empezar!</h3>
+                </div>
                 
                 <!-- Overlay that appears when video ends -->
                 <div class="video-overlay" id="completion-overlay">
@@ -347,6 +379,13 @@
     <script>
         const video = document.getElementById('my-video');
         const overlay = document.getElementById('completion-overlay');
+        const playOverlay = document.getElementById('play-overlay');
+
+        // Handle initial play click
+        playOverlay.addEventListener('click', function() {
+            playOverlay.classList.remove('active');
+            video.play();
+        });
 
         // When video ends, show the overlay with the WhatsApp button
         video.addEventListener('ended', function() {
