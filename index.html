@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación Especial - Jero</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS resets & basic styling */
+        * {
+            box-sizing: border-box;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+        }
+
+        /* App container filling the viewport */
+        #app-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #161616 50%, #0a0a0a 100%);
+            padding: 30px 20px;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), width 0.5s, height 0.5s;
+        }
+
+        /* Gold text gradient */
+        .gold-text {
+            background: linear-gradient(135deg, #f9e4b7 0%, #d4af37 30%, #b8860b 70%, #f9e4b7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+        }
+
+        /* Header style */
+        header {
+            text-align: center;
+            margin-top: 10px;
+            z-index: 10;
+        }
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 2.4rem;
+            letter-spacing: 3px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        header .divider {
+            height: 2px;
+            width: 120px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 10px auto 0;
+        }
+
+        /* Main area containing the video */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 850px;
+            margin: 20px 0;
+            position: relative;
+            z-index: 5;
+            min-height: 0; /* Prevents overflow in nested flex containers */
+        }
+
+        /* Video wrapper for card & shadow effects */
+        .video-card {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.15);
+            background-color: #000;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            outline: none;
+        }
+
+        /* Overlay for video completion */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+            z-index: 20;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .video-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .video-overlay h3 {
+            font-family: 'Cinzel', serif;
+            color: #f9e4b7;
+            font-size: 2.2rem;
+            margin: 0 0 25px 0;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Buttons styles */
+        .btn-gold {
+            background: linear-gradient(135deg, #f9e4b7 0%, #d4af37 50%, #aa7c11 100%);
+            color: #000000;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 16px 36px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 25px rgba(212, 175, 55, 0.45);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 35px rgba(212, 175, 55, 0.65);
+        }
+
+        .btn-gold:active {
+            transform: translateY(1px);
+        }
+
+        /* Pulsating keyframes and class */
+        @keyframes pulse-gold {
+            0% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.8), 0 4px 25px rgba(212, 175, 55, 0.45);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(212, 175, 55, 0), 0 4px 25px rgba(212, 175, 55, 0.45);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0), 0 4px 25px rgba(212, 175, 55, 0.45);
+            }
+        }
+
+        .pulse {
+            animation: pulse-gold 2s infinite;
+        }
+
+        .btn-replay {
+            background: transparent;
+            color: #f9e4b7;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 1px;
+        }
+
+        .btn-replay:hover {
+            background: rgba(212, 175, 55, 0.12);
+            border-color: #d4af37;
+            color: #ffffff;
+        }
+
+        /* Footer styling */
+        footer {
+            text-align: center;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+        footer p {
+            font-family: 'Cinzel', serif;
+            font-weight: 500;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        /* Floating orientation toggle button */
+        .btn-rotate-floating {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(5, 5, 5, 0.75);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: #f9e4b7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .btn-rotate-floating:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+            transform: scale(1.1);
+        }
+
+        .btn-rotate-floating i {
+            font-size: 1.3rem;
+            transition: transform 0.5s ease;
+        }
+
+        /* Simulated Rotation style (portrait screens only) */
+        @media (orientation: portrait) {
+            body.rotated-layout #app-container {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                width: 100vh;
+                height: 100vw;
+                transform: translate(-50%, -50%) rotate(90deg);
+                transform-origin: center center;
+                border-radius: 0;
+                padding: 15px 10px;
+            }
+            body.rotated-layout .btn-rotate-floating {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Responsiveness adjustments */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            footer p {
+                font-size: 1rem;
+            }
+            .btn-gold {
+                font-size: 1rem;
+                padding: 14px 28px;
+            }
+            .video-overlay h3 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Rotation action button -->
+    <button class="btn-rotate-floating" onclick="toggleRotation()" title="Girar pantalla">
+        <i class="fa-solid fa-rotate"></i>
+    </button>
+
+    <!-- Main Container -->
+    <div id="app-container">
+        
+        <!-- Header Section -->
+        <header>
+            <h1 class="gold-text">Invitación Especial</h1>
+            <div class="divider"></div>
+        </header>
+
+        <!-- Video Player Section -->
+        <main>
+            <div class="video-card">
+                <video id="my-video" controls playsinline>
+                    <source src="202606071414.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5.
+                </video>
+                
+                <!-- Overlay that appears when video ends -->
+                <div class="video-overlay" id="completion-overlay">
+                    <h3>¡Te Esperamos!</h3>
+                    <a href="https://wa.me/573137953107?text=Estar%C3%A9%20acompa%C3%B1ando%20a%20Jero%20el%20d%C3%ADa%20de%20su%20cumplea%C3%B1os%20n%C3%BAmero%20cuatro" 
+                       target="_blank" 
+                       class="btn-gold pulse" 
+                       id="btn-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i> Confirmar asistencia
+                    </a>
+                    <br>
+                    <button class="btn-replay" onclick="replayVideo()">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Ver de nuevo
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <p class="gold-text">Celebremos el milagro de la vida</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const video = document.getElementById('my-video');
+        const overlay = document.getElementById('completion-overlay');
+
+        // When video ends, show the overlay with the WhatsApp button
+        video.addEventListener('ended', function() {
+            overlay.classList.add('active');
+            
+            // Exit fullscreen if browser is in fullscreen mode (so overlay is visible)
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(err => console.log(err));
+            } else if (document.webkitFullscreenElement) {
+                document.webkitExitFullscreen();
+            }
+        });
+
+        // Replay video function
+        function replayVideo() {
+            overlay.classList.remove('active');
+            video.currentTime = 0;
+            video.play();
+        }
+
+        // Toggle Rotation function
+        function toggleRotation() {
+            document.body.classList.toggle('rotated-layout');
+        }
+
+        // Automatically disable simulated rotation if user rotates physically to landscape
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > window.innerHeight) {
+                // Device is physically in landscape mode
+                document.body.classList.remove('rotated-layout');
+            }
+        });
+    </script>
+</body>
+</html>
